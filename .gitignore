@@ -1,0 +1,9 @@
+/.vscode
+/.embuild
+build/
+components/*/target/
+components/rust-esp-cmake/doc
+Cargo.lock
+components/*/.embuild
+managed_components/
+.vscode

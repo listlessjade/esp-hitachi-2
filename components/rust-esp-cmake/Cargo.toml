@@ -1,0 +1,67 @@
+[package]
+name = "rust-esp-cmake"
+version = "0.1.0"
+authors = ["kore <emily@cat-girl.gay>"]
+edition = "2021"
+resolver = "2"
+rust-version = "1.77"
+
+[patch.crates-io]
+esp-idf-sys = { git = "https://github.com/kore-signet/esp-idf-sys.git", branch = "forked" }
+esp-idf-svc = { git = "https://github.com/kore-signet/esp-idf-svc.git", branch = "fork" }
+
+[lib]
+crate-type = ["staticlib"]
+harness = false # do not use the built in cargo test harness -> resolve rust-analyzer errors
+
+[profile.release]
+opt-level = "s"
+
+[profile.dev]
+debug = true # Symbols are nice and they don't increase the size on Flash
+opt-level = "z"
+
+[features]
+default = []
+
+[dependencies]
+log = "0.4"
+esp-idf-svc = { version = "*", default-features = false, features = ["std", "critical-section", "native"] }
+esp-idf-hal = { version = "0.45", default-features = false, features = ["std", "native"] }
+esp-idf-sys = { version = "0.36", default-features = false, features = ["std", "native"] }
+anyhow = "1.0.95"
+embedded-svc = "0.28.1"
+thingbuf = { git = "https://github.com/kore-signet/thingbuf.git", features = ["static", "std"] }
+arrayvec = "0.7.6"
+esp32-nimble = "0.10.1"
+printf-compat = "0.1.1"
+serde_json = "1.0.138"
+serde = { version = "1.0.217", features = ["derive"] }
+heapless = { version = "0.8.0", features = ["serde"] }
+parking_lot = "0.12.3"
+humansize = "2.1.3"
+shlex = "1.3.0"
+getargs = "0.5.0"
+
+[build-dependencies]
+bindgen = "0.71.1"
+embuild = "0.33"
+
+[package.metadata.esp-idf-sys]
+esp_idf_sdkconfig = "./sdkconfig"
+
+[[package.metadata.esp-idf-sys.extra_components]]
+remote_component = { name = "espressif/button", version = "4.0.0" }
+bindings_header = "include/extra_bindings.h"
+
+[[package.metadata.esp-idf-sys.extra_components]]
+remote_component = { name = "espressif/led_strip", version = "3.0.0" }
+bindings_header = "include/extra_bindings.h"
+
+[[package.metadata.esp-idf-sys.extra_components]]
+remote_component = { name = "espressif/ntc_driver", version = "1.1.0" }
+bindings_header = "include/extra_bindings.h"
+
+[[package.metadata.esp-idf-sys.extra_components]]
+remote_component = { name = "joltwallet/littlefs", version = "1.16.4" }
+bindings_header = "include/extra_bindings.h"

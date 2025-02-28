@@ -1,0 +1,1 @@
+{"wifi": {"enable": true, "ssid": "", "password": "", "username": "", "auth": "WPA2_PERSONAL", "identity": ""}, "motor": {"max_power": 100, "min_power": 50}, "remote_log": {"enable": true, "port": 8070}}
